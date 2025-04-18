@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>文字輸入</title>
+    <title>文字輸入2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <style>
@@ -37,7 +37,7 @@
         color: #fff;
         box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
         backdrop-filter: blur(8px);
-        transition: all 3s ease;
+        transition: all 0.3s ease;
       }
 
       .input-eject:focus {
@@ -59,7 +59,7 @@
       @keyframes rise-in {
         0% {
           opacity: 0;
-          transform: translateY(80px);
+          transform: translateY(240px);
         }
         100% {
           opacity: 1;
@@ -68,7 +68,7 @@
       }
 
       .app-content {
-        animation: rise-in 1s ease-out;
+        animation: rise-in 3s ease-out;
         display: flex;
         flex-direction: column;
         align-items: center;
