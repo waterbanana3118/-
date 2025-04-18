@@ -27,6 +27,21 @@
         50% { opacity: 0.4; transform: scale(1.2); }
       }
 
+      @keyframes fly-in {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fly-text {
+        animation: fly-in 0.6s ease-out;
+      }
+
       body {
         font-family: Arial, sans-serif;
         display: flex;
@@ -47,7 +62,7 @@
         <input-eject v-model="text"></input-eject>
         <span class="star-icon">⭐</span>
       </div>
-      <p>你輸入的內容是：{{ text }}</p>
+      <p :key="text" class="fly-text">你輸入的內容是：{{ text }}</p>
     </div>
 
     <script>
