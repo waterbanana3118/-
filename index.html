@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>My Project Website</title>
-</head>
-<body>
-    <h1>歡迎來到我的專案網站！</h1>
-    <p>這是一個示範網站，使用 GitHub Pages 部署。</p>
-</body>
+  <head>
+    <title>Vue App</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input-eject v-model="text"></input-eject>
+    </div>
+
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            text: ''
+          }
+        },
+        components: {
+          'input-eject': {
+            props: ['modelValue'],
+            emits: ['update:modelValue'],
+            template: `<input
+              :value="modelValue"
+              @input="$emit('update:modelValue', $event.target.value)"
+            >`
+          }
+        }
+      })
+
+      app.mount('#app')
+    </script>
+  </body>
 </html>
