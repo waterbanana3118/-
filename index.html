@@ -1,29 +1,56 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
   <head>
-    <title>Vue App</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Input Eject 測試頁</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <style>
+      .input-eject {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-inline: 2px solid #aaa;
+        border-radius: 6px;
+        width: 300px;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f7f7f7;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
       <input-eject v-model="text"></input-eject>
+      <p>你輸入的內容是：{{ text }}</p>
     </div>
 
     <script>
+      const InputEject = {
+        props: ['modelValue'],
+        emits: ['update:modelValue'],
+        template: `
+          <input
+            class="input-eject"
+            type="text"
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+          >
+        `
+      }
+
       const app = Vue.createApp({
+        components: { InputEject },
         data() {
           return {
             text: ''
-          }
-        },
-        components: {
-          'input-eject': {
-            props: ['modelValue'],
-            emits: ['update:modelValue'],
-            template: `<input
-              :value="modelValue"
-              @input="$emit('update:modelValue', $event.target.value)"
-            >`
           }
         }
       })
