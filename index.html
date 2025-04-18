@@ -4,21 +4,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Input Eject 測試頁</title>
+    <title>提瓦特輸入儀式</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Noto Sans TC', sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #fefefe 0%, #6c91bf 50%, #1e1e2f 100%);
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+        overflow: hidden;
+      }
+
       .input-eject {
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-inline: 2px solid #aaa;
-        border-radius: 6px;
-        width: 300px;
+        padding: 12px 16px;
+        width: 320px;
+        font-size: 18px;
+        border: 2px solid #d4af37;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+      }
+
+      .input-eject:focus {
+        outline: none;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
       }
 
       @keyframes fly-in {
         0% {
           opacity: 0;
-          transform: translateY(200px);
+          transform: translateY(30px);
         }
         100% {
           opacity: 1;
@@ -27,28 +57,17 @@
       }
 
       .fly-text {
-        animation: fly-in 5s ease-out;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background: linear-gradient(135deg, #ffffff 0%, #cccccc 50%, #000000 100%);
-        background-repeat: no-repeat;
-        background-size: cover;
+        animation: fly-in 0.6s ease-out;
+        margin-top: 20px;
+        font-size: 20px;
+        color: #f0f0f0;
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <div style="display: flex; align-items: center;">
-        <input-eject v-model="text"></input-eject>
-      </div>
+      <input-eject v-model="text"></input-eject>
       <p :key="text" class="fly-text">你輸入的內容是：{{ text }}</p>
     </div>
 
