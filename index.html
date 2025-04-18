@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>文字輸入</title>
+    <title>文字輸入3.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <style>
@@ -37,9 +37,12 @@
         box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
         backdrop-filter: blur(8px);
         transition: all 0.3s ease;
-        width: auto;
+        resize: none;
+        overflow: hidden;
         min-width: 120px;
         max-width: 90vw;
+        min-height: 42px;
+        line-height: 1.4;
       }
 
       .input-eject:focus {
@@ -87,6 +90,7 @@
       .input-wrapper {
         display: inline-block;
         white-space: nowrap;
+        width: 100%;
       }
 
       .text-measurer {
@@ -97,55 +101,59 @@
         font-size: 18px;
         padding: 12px 16px;
         font-family: 'Noto Sans TC', sans-serif;
+        white-space: pre-wrap;
+        word-break: break-word;
       }
     </style>
   </head>
   <body>
     <div id="app" class="app-content">
       <div class="input-wrapper">
-        <input-eject v-model="text" :style="{ width: inputWidth + 'px' }"></input-eject>
+        <textarea-eject v-model="text" :style="{ width: inputWidth + 'px', height: inputHeight + 'px' }"></textarea-eject>
         <span ref="measurer" class="text-measurer">{{ text || ' ' }}</span>
       </div>
       <p :key="text" class="fly-text">你輸入的內容是：{{ text }}</p>
     </div>
 
     <script>
-      const InputEject = {
+      const TextareaEject = {
         props: ['modelValue'],
         emits: ['update:modelValue'],
         template: `
-          <input
+          <textarea
             class="input-eject"
-            type="text"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
-          >
+          ></textarea>
         `
       }
 
       const app = Vue.createApp({
-        components: { InputEject },
+        components: { TextareaEject },
         data() {
           return {
             text: '',
-            inputWidth: 120
+            inputWidth: 120,
+            inputHeight: 42
           }
         },
         mounted() {
-          this.updateWidth()
+          this.updateSize()
         },
         watch: {
           text() {
-            this.updateWidth()
+            this.updateSize()
           }
         },
         methods: {
-          updateWidth() {
+          updateSize() {
             this.$nextTick(() => {
               const span = this.$refs.measurer
               if (span) {
                 const newWidth = span.offsetWidth + 20
+                const newHeight = span.offsetHeight + 20
                 this.inputWidth = Math.min(Math.max(120, newWidth), window.innerWidth * 0.9)
+                this.inputHeight = Math.min(Math.max(42, newHeight), 20 * 10) // 約可顯示10行
               }
             })
           }
