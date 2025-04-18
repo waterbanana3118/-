@@ -1,96 +1,118 @@
-<template>
-  <div class="relative w-full flex justify-center border border-gray-300 p-6">
-    <div class="max-w-[20rem] flex flex-col gap-4">
-      <base-input
-        v-model="form.username"
-        label="帳號 *"
-        class="w-full"
-      />
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文字輸入2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-      <base-input
-        v-model="form.password"
-        type="password"
-        label="密碼 *"
-        class="w-full"
-      />
+      body {
+        font-family: 'Noto Sans TC', sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #fefefe 0%, #6c91bf 50%, #1e1e2f 100%);
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+        overflow: hidden;
+      }
 
-      <div class="mt-3 flex justify-center">
-        <btn-naughty
-          label="送出表單"
-          :disabled
-          z-index="30"
-          @click="handleSubmit"
-        >
-          <template #rubbing>
-            <div class="rubbing">
-              請完成表單
-            </div>
-          </template>
-        </btn-naughty>
-      </div>
+      .input-eject {
+        padding: 12px 16px;
+        width: 320px;
+        font-size: 18px;
+        border: 2px solid #d4af37;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+      }
+
+      .input-eject:focus {
+        outline: none;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      }
+
+      @keyframes fly-in {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes rise-in {
+        0% {
+          opacity: 0;
+          transform: translateY(240px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .app-content {
+        animation: rise-in 3s ease-out;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .fly-text {
+        animation: fly-in 0.6s ease-out;
+        margin-top: 20px;
+        font-size: 20px;
+        color: #f0f0f0;
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="app-content">
+      <input-eject v-model="text"></input-eject>
+      <p :key="text" class="fly-text">你輸入的內容是：{{ text }}</p>
     </div>
 
-    <transition name="opacity">
-      <div
-        v-if="isSubmitted"
-        class="absolute inset-0 z-[40] flex flex-col items-center justify-center gap-6 rounded-xl bg-slate-600 bg-opacity-90 text-white"
-        @click="reset"
-      >
-        <span class="text-xl tracking-wide">
-          表單已送出！(*´∀`)~♥
-        </span>
+    <script>
+      const InputEject = {
+        props: ['modelValue'],
+        emits: ['update:modelValue'],
+        template: `
+          <input
+            class="input-eject"
+            type="text"
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+          >
+        `
+      }
 
-        <span class="cursor-pointer text-xs">
-          點一下再來一次
-        </span>
-      </div>
-    </transition>
-  </div>
-</template>
+      const app = Vue.createApp({
+        components: { InputEject },
+        data() {
+          return {
+            text: ''
+          }
+        }
+      })
 
-<script setup lang="ts">
-import { computed, ref } from 'vue'
-import BaseInput from '../../base-input.vue'
-import BtnNaughty from '../btn-naughty.vue'
-
-const form = ref({
-  username: '',
-  password: '',
-})
-const disabled = computed(() => {
-  return form.value.username === '' || form.value.password === ''
-})
-
-const isSubmitted = ref(false)
-function handleSubmit() {
-  if (disabled.value) {
-    return
-  }
-  isSubmitted.value = true
-}
-
-function reset() {
-  isSubmitted.value = false
-
-  form.value = {
-    username: '',
-    password: '',
-  }
-}
-</script>
-
-<style lang="sass" scoped>
-.rubbing
-  padding: 0.75rem
-  color: #ff7530
-  opacity: 0.8
-  border: 1px dashed #ff7530
-  border-radius: 0.2rem
-  white-space: nowrap
-  text-align: center
-
-.opacity-enter-active, .opacity-leave-active
-  transition-duration: 0.4s
-.opacity-enter-from, .opacity-leave-to
-  opacity: 0 !important
-</style>
+      app.mount('#app')
+    </script>
+  </body>
+</html>
