@@ -15,9 +15,22 @@
         width: 300px;
       }
 
+      .star-icon {
+        font-size: 28px;
+        color: gold;
+        margin-left: 10px;
+        animation: twinkle 1.5s infinite ease-in-out;
+      }
+
+      @keyframes twinkle {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.2); }
+      }
+
       body {
         font-family: Arial, sans-serif;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -28,7 +41,10 @@
   </head>
   <body>
     <div id="app">
-      <input-eject v-model="text"></input-eject>
+      <div style="display: flex; align-items: center;">
+        <input-eject v-model="text"></input-eject>
+        <span class="star-icon">⭐</span>
+      </div>
       <p>你輸入的內容是：{{ text }}</p>
     </div>
 
